@@ -1,6 +1,6 @@
-Run on 20200525-16-42-37
+Run on 20200525-16-55-53
 Import file destination:
-hxCT_hmmer-chordata_clustal_1015D4CC-D04D-11E7-89D5-F7E653F04F9B.1.fas
+input_example.txt
 Threshold values:
 0, 0.5, 0.8, 0.9, 1, 1.1, 1.2, 1.4, 1.6, 1.8, 2, 2.5, 3
 AA_Pos    WT  Freq    Con Freq    FCon/FWT
