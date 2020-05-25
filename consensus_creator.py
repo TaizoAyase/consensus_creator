@@ -18,13 +18,12 @@ from __future__ import division, print_function
 import argparse
 import datetime
 import re
-import sys
 from copy import deepcopy
 
 import numpy as np
 
 
-class AminoAcidsCounter:
+class AminoAcidsCounter(object):
     # TODO: key error if unusual letter is contained
     all_aa_letter = [
         "A",
@@ -67,11 +66,14 @@ class AminoAcidsCounter:
         return max([(v, k) for k, v in self.dict.items()])[1]
 
 
-class MultiFasta:
+class MultiFasta(object):
     def __init__(self, filename):
         self.filename = filename
         self.fasta_ary = []
         self.find_all_fasta(filename)
+
+    def __getitem__(self, i):
+        return self.fasta_ary[i]
 
     def find_all_fasta(self, filename):
         with open(filename, "r") as f:
@@ -99,7 +101,7 @@ class MultiFasta:
         return [fasta.seq[n] for fasta in self.fasta_ary]
 
 
-class SingleFasta:
+class SingleFasta(object):
     def __init__(self, header, seq):
         self.header = header
         self.seq = seq
@@ -132,7 +134,9 @@ domain. J. Mol. Biol. 240, 188-92 (1994).
 p = argparse.ArgumentParser(
     description=str_description, formatter_class=argparse.RawTextHelpFormatter
 )
-p.add_argument("filename", nargs="*")
+p.add_argument(
+    "-f", "--filename", type=str, help="input filename",
+)
 default_threshold = [0, 0.5, 0.8, 0.9, 1, 1.1, 1.2, 1.4, 1.6, 1.8, 2, 2.5, 3]
 p.add_argument(
     "-t",
@@ -142,26 +146,18 @@ p.add_argument(
     nargs="*",
     default=default_threshold,
 )
-p.add_argument(
-    "-w",
-    "--write",
-    help="writes results into a .txt file",
-    action="store_const",
-    const=True,
-    default=False,
-)
 args = p.parse_args()
 
 print("Import file destination:")
-print(args.filename[0])
+print(args.filename)
 print("Threshold values:")
 print(", ".join([str(e) for e in args.threshold]))
 
 
 # Load Multi-Fasta file #
-multifasta = MultiFasta(sys.argv[1])
+multifasta = MultiFasta(args.filename)
 
-n_length = multifasta.fasta_ary[0].length
+n_length = multifasta[0].length
 n_seq = len(multifasta.fasta_ary)
 
 # raise Error if all sequences do not have same length
@@ -194,7 +190,7 @@ consensus_seq = []
 ratio_ary = []
 
 for i in range(n_length):
-    target_aa = multifasta.fasta_ary[0].seq[i]
+    target_aa = multifasta[0].seq[i]
 
     # skip gap
     if target_aa == "-":
@@ -212,8 +208,8 @@ for i in range(n_length):
     consensus_seq.append(max_aa)
 
     output = (
-        "{seq_id:<6d}{target_aa:>6s}  {target_freq:4.1f}    "
-        "{max_aa:<3s} {max_freq:4.1f}    {ratio:4.2f}"
+        "{seq_id:<6d}{target_aa:>6s}  {target_freq:5.1f}    "
+        "{max_aa:<3s} {max_freq:5.1f}    {ratio:4.2f}"
     ).format(**locals())
     # output = "%s, %5.2f, %s, %5.2f" % (target_aa, target_freq, max_aa, max_freq)
     print(output)
@@ -222,7 +218,7 @@ for i in range(n_length):
 
 
 # output sequences
-title = multifasta.fasta_ary[0].header
+title = multifasta[0].header
 print()
 print(">WT_" + title)
 print("".join(target_seq))
