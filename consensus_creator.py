@@ -1,4 +1,17 @@
 #!/usr/bin/env python
+"""
+Consensus Creator ver 2.01
+
+This progam reads pre-aligned sequences as a single FASTA file, and creates
+consensus sequences. The program code was written by Yongchan Lee, 2017,
+and modified by Mizuki Takemoto.
+Theoretical framework is based on a paper by Steipe B et al., 1994.
+
+-Reference
+1) Steipe, B., Schiller, B., Pluckthun, A. & Steinbacher, S.
+Sequence statistics reliably predict stabilizing mutations in a protein
+domain. J. Mol. Biol. 240, 188-92 (1994).
+"""
 
 from __future__ import division, print_function
 
@@ -105,7 +118,8 @@ print("Run on", str_run_datetime)
 str_description = """\
 ************************ Consensus Creator ver 2.01 ***********************
 This progam reads pre-aligned sequences as a single FASTA file, and creates
-consensus sequences. The program code was written by Yongchan Lee, 2017.
+consensus sequences. The program code was written by Yongchan Lee, 2017,
+and modified by Mizuki Takemoto.
 Theoretical framework is based on a paper by Steipe B et al., 1994.
 
 -Reference
