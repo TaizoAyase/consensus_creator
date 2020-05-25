@@ -2,7 +2,11 @@
 
 Make consensus sequence from multiple alingment FASTA file
 
-## How to use
+# Requirements
+
+- numpy
+
+# How to use
 
 Example input FASTA file and expected output file are provided in `./examples` directory.
 
