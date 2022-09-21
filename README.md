@@ -1,5 +1,7 @@
 # consensus_creator
 
+[![DOI](https://zenodo.org/badge/266694044.svg)](https://zenodo.org/badge/latestdoi/266694044)
+
 Make consensus sequence from multiple alingment FASTA file
 
 # Requirements
